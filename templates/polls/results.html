@@ -1,0 +1,30 @@
+{% extends 'wrapper.html' %}
+
+
+{% block title %}Voting results{% endblock %}
+
+{% block header %}
+  <h2><span class="teal-text text-darken-4">
+    Results on question "{{ q.text }}"
+  </span></h2>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="collection col s12 m6">
+      {% for choice in q.choice_set.all %}
+        <div class="collection-item">
+          <div>
+            {{ choice.text }}
+            <div class="votes-count secondary-content">{{ choice.votes }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <a href="{% url 'polls:index' %}" 
+  class="btn btn-large waves-effect waves-light">
+    All polls
+  </a>
+{% endblock %}

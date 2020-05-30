@@ -10,7 +10,8 @@ class Question(models.Model):
 
     def is_recent(self):
         """ Is the question published in last 24 hours? """
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        return now - datetime.timedelta(days=3) <= self.pub_date <= now
 
     def __str__(self):
         return self.text

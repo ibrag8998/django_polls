@@ -1,0 +1,36 @@
+{% extends 'wrapper.html' %}
+
+
+{% block title %}Question #{{ q.id }}{% endblock %}
+
+{% block header %}
+  <h2><span class="teal-text text-darken-4">{{ q.text }}</span></h2>
+{% endblock %}
+
+{% block content %}
+  {% for message in messages %}
+    <script>M.toast({html: '{{ message }}'})</script>
+  {% endfor %}
+
+  <form action="{% url 'polls:vote' q.id %}" method="post">
+    {% csrf_token %}
+    {% for choice in q.choice_set.all %}
+      <p class="vote-option-wrapper">
+        <label>
+          <input type="radio" name="choice" value="{{ choice.id }}"
+          class="with-gap">
+          <span class="vote-option">{{ choice.text }}</span>
+        </label>
+      </p>
+    {% endfor %}
+    <button class="btn btn-large waves-effect waves-light"
+    type="submit" name="action">
+      Vote
+      <i class="material-icons right">send</i>
+    </button>
+    <a href="{% url 'polls:index' %}" 
+    class="btn btn-large waves-effect waves-light">
+      All polls
+    </a>
+  </form>
+{% endblock %}
