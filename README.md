@@ -1,11 +1,11 @@
 # About
 
 Trying to make something worthy out of polls minimal app from django official
-tutorial. Added users functionality, good-looking view, and much more details.
+tutorial. Added users functionality, good-looking views, and much more details.
 
 ## TODO
 
-- Only one per question by the same user
+- Only one vote per question by the same user
 
 - Refactor code and its architecture
 
