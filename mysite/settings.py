@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # mine
     'polls.apps.PollsConfig',
+    'users.apps.UsersConfig',
 
     # django stuff
     'django.contrib.admin',
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,3 +125,19 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+LOGIN_URL = 'users:signin'
+
+LOGIN_REDIRECT_URL = 'polls:index'
+
+TESTING = {
+    'SIGNIN_CREDS': {
+        'username': 'testuser',
+        'password': 'megatron05'
+    },
+    'SIGNUP_CREDS': {
+        'username': 'testuser',
+        'password1': 'megatron05',
+        'password2': 'megatron05'
+    }
+}

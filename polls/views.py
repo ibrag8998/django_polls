@@ -1,10 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .models import Question, Choice
 
@@ -27,8 +26,10 @@ class DetailView(generic.DetailView):
     def get_queryset(self):
         """ Filter questions.
         Filter: exclude not yet published questions.
+        Filter: exclude questions without choices.
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        return Question.objects.filter(pub_date__lte=timezone.now(),
+                                       choice__text__isnull=False).distinct()
 
 
 class ResultsView(generic.DetailView):
@@ -37,6 +38,7 @@ class ResultsView(generic.DetailView):
     context_object_name = 'q'
 
 
+@login_required
 def vote(req, q_id):
     q = get_object_or_404(Question, pk=q_id)
     try:
@@ -48,4 +50,3 @@ def vote(req, q_id):
     selected_choice.votes += 1
     selected_choice.save()
     return redirect('polls:results', q.id)
-    return HttpResponseRedirect(reverse('polls:results', args=(q.id, )))

@@ -5,12 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
   rel="stylesheet">
   <link type="text/css" rel="stylesheet" 
   href="{% static 'css/materialize.css' %}"  media="screen,projection"/>
+  <link rel="stylesheet" href="{% static 'css/polls/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-  <link rel="stylesheet" href="{% static 'css/polls/main.css' %}">
   <title>{% block title %}
     `title` not overriden
   {% endblock %} - My Site</title>
@@ -20,10 +22,16 @@
 <body>
 
   <nav class="teal">
-    <div class="nav-wrapper">
+    <div class="nav-wrapper container">
       <a href="{% url 'polls:index' %}" class="brand-logo">Polls</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="#">Elem</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'polls:index' %}">{{ user.username }}</a></li>
+          <li><a href="{% url 'users:logout' %}">Log Out</a></li>
+        {% else %}
+          <li><a href="{% url 'users:signup' %}">Sign Up</a></li>
+          <li><a href="{% url 'users:signin' %}">Sign In</a></li>
+        {% endif %}
       </ul>
     </div>
   </nav>
@@ -31,11 +39,13 @@
   <div class="container">
     <div class="row">
       <div class="col s12 m9 l8">
-        <div class="main">
+        <div class="row">
           <header>
             {% block header %}`header` not overriden{% endblock %}
           </header>
+        </div>
 
+        <div class="row">
           <section class="content">
             {% block content %}
               `content` not overriden
